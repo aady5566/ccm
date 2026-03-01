@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>CCM V1 // Playbook</title>
+    <title>CCM // Playbook</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
@@ -292,8 +292,8 @@
 <div class="page">
 
     <header>
-        <h1>CCM V1 Playbook</h1>
-        <p class="subtitle">Macro view and March execution plan. Last updated: <strong id="last-updated">2026-02-28</strong></p>
+        <h1>CCM Playbook</h1>
+        <p class="subtitle">Macro view and March execution plan. Last updated: <strong id="last-updated">2026-03-01</strong></p>
     </header>
 
     <!-- ══════════════════════════════════════════════════════
@@ -302,7 +302,7 @@
 
     <h2>Macro View</h2>
 
-    <p>The V1 release delivers 3 Core Functions. Each function maps to development stages, and each stage maps to PRD sections. This is the full picture.</p>
+    <p>The first release delivers 3 Core Functions. Each function maps to development stages, and each stage maps to PRD sections. This is the full picture.</p>
 
     <h3>Core Functions to Stages</h3>
 
@@ -472,12 +472,12 @@
             <ul>
                 <li><strong>S2.1</strong> Creative Upload & Auto-Categorization
                     <br><span style="color:var(--text-muted);">Read: PRD Part 3 > Creative module (entire section + Spec Matrix).</span></li>
-                <li>Build the V1 Supported Formats Table (Banner, Video, Native, Native Video only)</li>
+                <li>Build the Supported Formats Table (Banner, Video, Native, Native Video only)</li>
                 <li>Document: upload flow, validation rules, auto-categorization logic, sub-component requirements, combinatorial output</li>
-                <li>KR types (Kakao/Naver) = out of V1 scope, note and skip</li>
+                <li>KR types (Kakao/Naver) = out of scope, note and skip</li>
             </ul>
         </div>
-        <div class="deliverable"><span>Deliver:</span> S2.1 spec + V1 format table + categorization rules</div>
+        <div class="deliverable"><span>Deliver:</span> S2.1 spec + format table + categorization rules</div>
     </div>
 
     <!-- Week 3 -->
@@ -492,7 +492,7 @@
                 <li><strong>S2.2</strong> Creative Group CRUD
                     <br><span style="color:var(--text-muted);">Read: PRD Part 3 > Creative Group, Sections 1-9. Spec: table, detail view, create/add/remove/delete.</span></li>
                 <li>IsSynced checks in Creative Group = mark as "added in Stage 4", do not spec now</li>
-                <li>Schedule timezone issue = use browser timezone for V1, note the open question</li>
+                <li>Schedule timezone issue = use browser timezone for now, note the open question</li>
             </ul>
             <div class="alert warn" style="margin-top: var(--space-4);">
                 <strong>Decision-01 checkpoint:</strong> If closed, begin S3.1 (Tracking Link Table + TGM API fields). If still open, continue refining S2.1/S2.2 and flag the blocker.
@@ -516,7 +516,7 @@
                     <br><span style="color:var(--text-muted);">If Decision-07 open: spec everything except notification channel.</span></li>
                 <li><strong>S4.2</strong> IsSynced Permission -- cross-module behavior matrix
                     <br><span style="color:var(--text-muted);">If Decision-02 open: spec per-module impact, mark trigger timing as TBD.</span></li>
-                <li><strong>S5.1</strong> Permission Control -- V1 minimum (Internal vs External binary)
+                <li><strong>S5.1</strong> Permission Control -- minimum scope (Internal vs External binary)
                     <br><span style="color:var(--text-muted);">PRD Part 2 is NOT READY. Document what exists, list all unknowns.</span></li>
             </ul>
         </div>
@@ -623,10 +623,10 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECTION 5: V1 SCOPE
+         SECTION 5: SCOPE
          ══════════════════════════════════════════════════════ -->
 
-    <h2>V1 Scope Boundaries</h2>
+    <h2>Scope Boundaries</h2>
 
     <h3>In Scope</h3>
     <div class="table-wrap">
@@ -650,18 +650,18 @@
                 <tr><td>KR creative types (Kakao/Naver)</td><td>Region-specific</td></tr>
                 <tr><td>Cross-app duplicate</td><td>High complexity, not on critical path</td></tr>
                 <tr><td>Batch create groups</td><td>PRD marks as TBC</td></tr>
-                <tr><td>Automation tools (auto-gen end card/thumbnail)</td><td>Manual upload sufficient for V1</td></tr>
+                <tr><td>Automation tools (auto-gen end card/thumbnail)</td><td>Manual upload sufficient</td></tr>
                 <tr><td>Filters (all modules)</td><td>Low data volume at launch</td></tr>
                 <tr><td>Archived status</td><td>Internal only</td></tr>
-                <tr><td>6-role granular permissions</td><td>V1 uses binary model</td></tr>
-                <tr><td>Import from Asset Library</td><td>V1 supports Upload only</td></tr>
-                <tr><td>COD package entry</td><td>V1 uses CPM only</td></tr>
+                <tr><td>6-role granular permissions</td><td>Uses binary model</td></tr>
+                <tr><td>Import from Asset Library</td><td>Supports Upload only</td></tr>
+                <tr><td>COD package entry</td><td>Uses CPM only</td></tr>
             </tbody>
         </table>
     </div>
 
     <footer class="footer">
-        CCM V1 Playbook // Updated <span id="footer-date">2026-02-28</span> // Source: PRD + TDD Master Plan + V1 Release Checklist
+        CCM Playbook // Updated <span id="footer-date">2026-03-01</span> // Source: PRD + TDD Master Plan + Release Checklist
     </footer>
 
 </div>
