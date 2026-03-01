@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CCM V1 // Playbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-rust: #C75C5C;
+            --color-moss: #778A5E;
+            --color-clay: #D4B896;
+            --color-slate: #5E7A8A;
+            --color-ash: #6B7280;
+            --color-dusk: #8A6B7F;
+            --color-moss-light: #92A579;
+            --color-rust-dark: #9A4545;
+            --color-ash-dark: #4B5563;
+            --color-void: #1A1D21;
+            --color-void-deep: #121417;
+            --color-void-elevated: #24282E;
+            --color-paper: #E8E2D0;
+            --color-paper-muted: #B8B4A4;
+            --bg-primary: var(--color-void);
+            --bg-secondary: var(--color-void-deep);
+            --bg-elevated: var(--color-void-elevated);
+            --text-primary: var(--color-paper);
+            --text-secondary: var(--color-paper-muted);
+            --text-muted: var(--color-ash);
+            --border-default: var(--color-ash-dark);
+            --font-mono: 'Fira Code', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+            --text-xs: 0.75rem;
+            --text-sm: 0.85rem;
+            --text-base: 1rem;
+            --text-lg: 1.1rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.6rem;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 24px;
+            --space-6: 32px;
+            --space-7: 48px;
+            --space-8: 64px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: clamp(0.875rem, 0.8rem + 0.25vw, 1rem); scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            line-height: 1.7;
+            min-height: 100dvh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--space-6) var(--space-5);
+        }
+        @media (max-width: 640px) { .page { padding: var(--space-4); } }
+
+        /* ── Typography ── */
+        h1 {
+            font-size: var(--text-2xl);
+            font-weight: 500;
+            color: var(--color-clay);
+            border-bottom: 1px dashed var(--border-default);
+            padding-bottom: var(--space-3);
+            margin-bottom: var(--space-4);
+            letter-spacing: 0.05ch;
+        }
+        .subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-7);
+        }
+        h2 {
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: var(--color-moss);
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-4);
+            letter-spacing: 0.05ch;
+        }
+        h2::before { content: "// "; color: var(--text-muted); }
+        h3 {
+            font-size: var(--text-base);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.1ch;
+        }
+        p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            max-width: 68ch;
+        }
+        code {
+            background: rgba(128,128,128,0.15);
+            padding: 0.1rem 0.4rem;
+            font-size: 0.85em;
+            color: var(--color-clay);
+        }
+
+        /* ── Divider ── */
+        .divider {
+            border-top: 1px dashed var(--border-default);
+            margin: var(--space-7) 0;
+        }
+
+        /* ── Architecture Diagram ── */
+        .diagram {
+            font-family: var(--font-mono);
+            white-space: pre;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            font-size: var(--text-sm);
+            line-height: 1.5;
+            padding: var(--space-5);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            margin-bottom: var(--space-5);
+            color: var(--text-muted);
+        }
+        .diagram .moss { color: var(--color-moss); }
+        .diagram .clay { color: var(--color-clay); }
+        .diagram .slate { color: var(--color-slate); }
+        .diagram .rust { color: var(--color-rust); }
+        .diagram .dusk { color: var(--color-dusk); }
+        .diagram .paper { color: var(--color-paper); }
+        .diagram .muted { color: var(--text-muted); }
+        @media (max-width: 640px) { .diagram { font-size: var(--text-xs); padding: var(--space-3); } }
+
+        /* ── Table ── */
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: var(--space-5); }
+        table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+        th {
+            text-align: left;
+            border-bottom: 2px solid var(--border-default);
+            padding: var(--space-3);
+            color: var(--color-clay);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        td {
+            border-bottom: 1px dashed rgba(75,85,99,0.4);
+            padding: var(--space-3);
+            color: var(--text-primary);
+            vertical-align: top;
+        }
+        tr:hover td { background: rgba(128,128,128,0.04); }
+
+        /* ── Badge ── */
+        .badge {
+            display: inline-block;
+            font-size: var(--text-xs);
+            padding: 0.05rem 0.45rem;
+            border: 1px solid currentColor;
+        }
+        .badge.rust { color: var(--color-rust); }
+        .badge.moss { color: var(--color-moss); }
+        .badge.clay { color: var(--color-clay); }
+        .badge.slate { color: var(--color-slate); }
+        .badge.dusk { color: var(--color-dusk); }
+        .badge.ash  { color: var(--color-ash); border-style: dashed; }
+
+        /* ── Status Badges ── */
+        .status {
+            display: inline-block;
+            font-size: var(--text-xs);
+            padding: 0.1rem 0.5rem;
+            letter-spacing: 0.05ch;
+        }
+        .status.open { color: var(--color-rust); border: 1px solid var(--color-rust); }
+        .status.closed { color: var(--color-moss); border: 1px solid var(--color-moss); background: rgba(119,138,94,0.1); }
+        .status.wip { color: var(--color-clay); border: 1px dashed var(--color-clay); }
+
+        /* ── Alert Box ── */
+        .alert {
+            padding: var(--space-4);
+            border-left: 3px solid;
+            background: var(--bg-secondary);
+            margin-bottom: var(--space-5);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .alert.info { border-color: var(--color-slate); }
+        .alert.warn { border-color: var(--color-clay); }
+        .alert.crit { border-color: var(--color-rust); }
+        .alert strong { color: var(--text-primary); }
+
+        /* ── Week Card ── */
+        .week {
+            border: 1px solid var(--border-default);
+            background: var(--bg-elevated);
+            margin-bottom: var(--space-5);
+        }
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-default);
+            font-size: var(--text-sm);
+        }
+        .week-id { color: var(--color-slate); letter-spacing: 0.1ch; }
+        .week-body { padding: var(--space-4); }
+        @media (min-width: 768px) { .week-body { padding: var(--space-5); } }
+        .week-body p { margin-bottom: var(--space-3); }
+        .week-body ul {
+            list-style: none;
+            margin-bottom: var(--space-4);
+            font-size: var(--text-sm);
+        }
+        .week-body li {
+            padding: var(--space-1) 0;
+            color: var(--text-secondary);
+        }
+        .week-body li::before { content: "- "; color: var(--text-muted); }
+
+        .deliverable {
+            padding: var(--space-3) var(--space-4);
+            border-top: 1px dashed var(--border-default);
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1ch;
+        }
+        .deliverable span { color: var(--color-moss); }
+
+        /* ── Decision Tracker ── */
+        .decision-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-5);
+        }
+        @media (min-width: 640px) { .decision-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+        .decision-card {
+            border: 1px solid var(--border-default);
+            padding: var(--space-4);
+            background: var(--bg-elevated);
+        }
+        .decision-card .label {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1ch;
+            margin-bottom: var(--space-2);
+        }
+        .decision-card .title {
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .decision-card .blocks {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+        }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: var(--space-8);
+            padding-top: var(--space-5);
+            border-top: 1px dashed var(--border-default);
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+        }
+
+        /* ── Print ── */
+        @media print {
+            body { background: white; color: #222; }
+            .diagram { border: 1px solid #ccc; background: #f8f8f8; }
+            .week { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <header>
+        <h1>CCM V1 Playbook</h1>
+        <p class="subtitle">Macro view and March execution plan. Last updated: <strong id="last-updated">2026-02-28</strong></p>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 1: MACRO VIEW
+         ══════════════════════════════════════════════════════ -->
+
+    <h2>Macro View</h2>
+
+    <p>The V1 release delivers 3 Core Functions. Each function maps to development stages, and each stage maps to PRD sections. This is the full picture.</p>
+
+    <h3>Core Functions to Stages</h3>
+
+    <div class="diagram"><span class="paper">3 Core Functions               Stages                  PRD Source</span>
+<span class="muted">-------------------------------------------------------------------</span>
+
+<span class="clay">1. Upload Creative</span>         <span class="moss">S2.1</span> Creative Upload        Part 3 > Creative
+                            <span class="moss">S2.2</span> Creative Group CRUD    Part 3 > Creative Group
+
+<span class="clay">2. Set Default Tracker</span>     <span class="slate">S3.1</span> TGM API + Link Create  Part 3 > Tracking Links
+                            <span class="slate">S3.2</span> Link Assignment        Part 3 > Tracking Links
+                                                       + Creative Group + Campaigns
+
+<span class="clay">3. Map to Campaign</span>        <span class="dusk">S4.1</span> Campaign Lifecycle     Part 3 > Campaigns
+                            <span class="dusk">S4.2</span> IsSynced Control       All modules (cross-cutting)
+
+<span class="muted">+ Foundation (required before all Core Functions)</span>
+                            <span class="moss">S1.1</span> Navigation + App ID    Part 3 > Section 1-2
+                            <span class="moss">S1.2</span> CPM Package            Part 1
+
+<span class="muted">+ Gate (required before external users go live)</span>
+                            <span class="rust">S5.1</span> Permission Control     Part 2 (NOT READY)</div>
+
+    <h3>Stage Dependency Flow</h3>
+
+    <div class="diagram"><span class="moss">S1.1</span> Navigation             <span class="muted">No blocker. Start here.</span>
+  |
+<span class="moss">S1.2</span> CPM Package             <span class="muted">No blocker.</span>
+  |
+  |   <span class="muted">Checkpoint: Can enter CCM, select App ID, see Campaign list</span>
+  |
+<span class="clay">S2.1</span> Creative Upload         <span class="muted">No blocker.</span>
+  |
+<span class="clay">S2.2</span> Creative Group          <span class="muted">Needs S2.1</span>
+  |
+  |   <span class="muted">Checkpoint: Upload works, groups work, creatives organized</span>
+  |
+<span class="slate">S3.1</span> Tracking Link           <span class="rust">Blocked by Decision-01</span>
+  |
+<span class="slate">S3.2</span> Link Assignment         <span class="muted">Needs S3.1 + S2.2 + S1.2</span>
+  |
+  |   <span class="muted">Checkpoint: Links created, assigned to campaign/group</span>
+  |
+<span class="dusk">S4.1</span> Campaign Lifecycle      <span class="rust">Needs Decision-07</span>
+  |
+<span class="dusk">S4.2</span> IsSynced Control        <span class="rust">Blocked by Decision-02</span>
+  |
+  |   <span class="muted">Checkpoint: Full lifecycle works, lock/unlock correct</span>
+  |
+<span class="rust">S5.1</span> Permission              <span class="muted">Needs all of Stage 4</span>
+  |
+  <span class="muted">Checkpoint: External user gated correctly</span></div>
+
+    <h3>IsSynced: The Critical Flag</h3>
+
+    <p><code>IsSynced</code> controls whether a client can edit anything. It cuts across all modules. Its trigger timing (Decision-02) must be resolved before Stage 4.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>IsSynced</th><th>Campaign Status</th><th>Client Can Do</th></tr></thead>
+            <tbody>
+                <tr><td><span class="badge moss">False</span></td><td>Incomplete / Ready</td><td>Full edit</td></tr>
+                <tr><td><span class="badge moss">False</span></td><td>Updated / In Progress</td><td>Edit allowed (not yet synced to backend)</td></tr>
+                <tr><td><span class="badge rust">True</span></td><td>Updated / In Progress / Completed</td><td>Locked -- must contact AM</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 2: DECISION TRACKER
+         ══════════════════════════════════════════════════════ -->
+
+    <h2>Decision Tracker</h2>
+
+    <p>These 3 decisions block specific stages. Status is updated here as decisions are made.</p>
+
+    <div class="decision-grid">
+        <div class="decision-card">
+            <div class="label">Decision-01</div>
+            <div class="title">TGM Create API Field Mapping</div>
+            <div><span class="status open">OPEN</span></div>
+            <div class="blocks">Blocks: S3.1</div>
+        </div>
+        <div class="decision-card">
+            <div class="label">Decision-02</div>
+            <div class="title">IsSynced Flag Trigger Timing</div>
+            <div><span class="status open">OPEN</span></div>
+            <div class="blocks">Blocks: S4.2</div>
+        </div>
+        <div class="decision-card">
+            <div class="label">Decision-07</div>
+            <div class="title">"Notify AM" Channel</div>
+            <div><span class="status open">OPEN</span></div>
+            <div class="blocks">Blocks: S4.1</div>
+        </div>
+    </div>
+
+    <div class="alert info">
+        Stages 1-2 have <strong>no decision blockers</strong>. Spec work starts immediately while decisions are being resolved in parallel.
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 3: MARCH EXECUTION PLAN
+         ══════════════════════════════════════════════════════ -->
+
+    <h2>March Execution Plan</h2>
+
+    <p>Goal: by end of March, all 9 stage specs are delivered as functional specs. UI wireframes are not required. When you hit something you cannot resolve, flag it and move to the next item.</p>
+
+    <h3>Done Criteria for March</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Must</th><th>Nice</th><th>Out of Scope</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        All 9 stage specs delivered<br>
+                        Decision-01, 02, 07 closed<br>
+                        All flagged items have conclusions
+                    </td>
+                    <td>
+                        UI wireframe for S1-S2<br>
+                        Permission (Part 2) initial spec
+                    </td>
+                    <td>
+                        Pixel-perfect mockups<br>
+                        Full UI interaction details<br>
+                        Engineering estimates
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Week 1 -->
+    <div class="week">
+        <div class="week-header">
+            <span class="week-id">Week 1 // Mar 3-7</span>
+            <span class="badge moss">Foundation</span>
+        </div>
+        <div class="week-body">
+            <p style="color: var(--color-paper);">Focus: S1.1 + S1.2 -- the simplest specs, well-defined in PRD.</p>
+            <ul>
+                <li><strong>S1.1</strong> Navigation & App Context
+                    <br><span style="color:var(--text-muted);">Read: PRD Part 3, Section 1-2. Spec: sidebar rules, App ID dropdown, 4 tabs, context reload.</span></li>
+                <li><strong>S1.2</strong> Campaign Package (CPM Minimum)
+                    <br><span style="color:var(--text-muted);">Read: PRD Part 1. Spec: every field in the package creation table.</span></li>
+            </ul>
+            <p style="color:var(--text-muted); font-size:var(--text-xs);">Parallel: Lead pushes Decision-01, 02, 07 with relevant teams.</p>
+        </div>
+        <div class="deliverable"><span>Deliver:</span> S1.1 spec + S1.2 spec (functional, all fields documented)</div>
+    </div>
+
+    <!-- Week 2 -->
+    <div class="week">
+        <div class="week-header">
+            <span class="week-id">Week 2 // Mar 10-14</span>
+            <span class="badge clay">Content</span>
+        </div>
+        <div class="week-body">
+            <p style="color: var(--color-paper);">Focus: S2.1 -- the largest single spec. Take the full week.</p>
+            <ul>
+                <li><strong>S2.1</strong> Creative Upload & Auto-Categorization
+                    <br><span style="color:var(--text-muted);">Read: PRD Part 3 > Creative module (entire section + Spec Matrix).</span></li>
+                <li>Build the V1 Supported Formats Table (Banner, Video, Native, Native Video only)</li>
+                <li>Document: upload flow, validation rules, auto-categorization logic, sub-component requirements, combinatorial output</li>
+                <li>KR types (Kakao/Naver) = out of V1 scope, note and skip</li>
+            </ul>
+        </div>
+        <div class="deliverable"><span>Deliver:</span> S2.1 spec + V1 format table + categorization rules</div>
+    </div>
+
+    <!-- Week 3 -->
+    <div class="week">
+        <div class="week-header">
+            <span class="week-id">Week 3 // Mar 17-21</span>
+            <span class="badge clay">Content</span> <span class="badge slate">Tracking</span>
+        </div>
+        <div class="week-body">
+            <p style="color: var(--color-paper);">Focus: S2.2 + S3.1 (begin tracking spec if Decision-01 is closed).</p>
+            <ul>
+                <li><strong>S2.2</strong> Creative Group CRUD
+                    <br><span style="color:var(--text-muted);">Read: PRD Part 3 > Creative Group, Sections 1-9. Spec: table, detail view, create/add/remove/delete.</span></li>
+                <li>IsSynced checks in Creative Group = mark as "added in Stage 4", do not spec now</li>
+                <li>Schedule timezone issue = use browser timezone for V1, note the open question</li>
+            </ul>
+            <div class="alert warn" style="margin-top: var(--space-4);">
+                <strong>Decision-01 checkpoint:</strong> If closed, begin S3.1 (Tracking Link Table + TGM API fields). If still open, continue refining S2.1/S2.2 and flag the blocker.
+            </div>
+        </div>
+        <div class="deliverable"><span>Deliver:</span> S2.2 spec + S3.1 spec (or partial S3.1 if Decision-01 still open)</div>
+    </div>
+
+    <!-- Week 4 -->
+    <div class="week">
+        <div class="week-header">
+            <span class="week-id">Week 4 // Mar 24-28</span>
+            <span class="badge slate">Tracking</span> <span class="badge dusk">Lifecycle</span>
+        </div>
+        <div class="week-body">
+            <p style="color: var(--color-paper);">Focus: remaining stages. Scope depends on which decisions are closed.</p>
+            <ul>
+                <li><strong>S3.1</strong> (if not completed in Week 3) -- finish TGM API + Tracking Link spec</li>
+                <li><strong>S3.2</strong> Tracking Link Assignment -- entry points B/C, auto-assign, override logic</li>
+                <li><strong>S4.1</strong> Campaign Lifecycle -- status transitions, Notify AM
+                    <br><span style="color:var(--text-muted);">If Decision-07 open: spec everything except notification channel.</span></li>
+                <li><strong>S4.2</strong> IsSynced Permission -- cross-module behavior matrix
+                    <br><span style="color:var(--text-muted);">If Decision-02 open: spec per-module impact, mark trigger timing as TBD.</span></li>
+                <li><strong>S5.1</strong> Permission Control -- V1 minimum (Internal vs External binary)
+                    <br><span style="color:var(--text-muted);">PRD Part 2 is NOT READY. Document what exists, list all unknowns.</span></li>
+            </ul>
+        </div>
+        <div class="deliverable"><span>Deliver:</span> S3.2 + S4.1 + S4.2 + S5.1 specs (with TBD items clearly marked if decisions remain open)</div>
+    </div>
+
+    <h3>Weekly Check-in Questions</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>#</th><th>Question</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Which specs were completed this week?</td></tr>
+                <tr><td>2</td><td>What items are flagged as TBD or unresolved?</td></tr>
+                <tr><td>3</td><td>Which decisions need to close this week? Are they on track?</td></tr>
+                <tr><td>4</td><td>Is anything blocked that was not expected?</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 4: STAGE SUMMARY
+         ══════════════════════════════════════════════════════ -->
+
+    <h2>Stage Summary</h2>
+
+    <p>What each stage covers and where to find it in the PRD.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Stage</th><th>Name</th><th>PRD Source</th><th>Key Output</th><th>Blocker</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge moss">S1.1</span></td>
+                    <td>Navigation & App Context</td>
+                    <td>Part 3 > Section 1-2</td>
+                    <td>Sidebar rules, App ID selector, 4 tabs, reload behavior</td>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <td><span class="badge moss">S1.2</span></td>
+                    <td>Campaign Package</td>
+                    <td>Part 1</td>
+                    <td>All package fields, enable CCM toggle, Entity/App ID/Ad Solution/Region</td>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <td><span class="badge clay">S2.1</span></td>
+                    <td>Creative Upload</td>
+                    <td>Part 3 > Creative</td>
+                    <td>Upload flow, validation, auto-categorization, Spec Matrix, sub-components, combinatorial logic</td>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <td><span class="badge clay">S2.2</span></td>
+                    <td>Creative Group CRUD</td>
+                    <td>Part 3 > Creative Group (Sec 1-9)</td>
+                    <td>Table, detail view, create/add/remove/delete group, status definitions</td>
+                    <td>S2.1</td>
+                </tr>
+                <tr>
+                    <td><span class="badge slate">S3.1</span></td>
+                    <td>TGM API & Tracking Link</td>
+                    <td>Part 3 > Tracking Links</td>
+                    <td>Link table, status lifecycle, Add flow (Entry A), TGM API field mapping, edit rules</td>
+                    <td style="color:var(--color-rust);">Decision-01</td>
+                </tr>
+                <tr>
+                    <td><span class="badge slate">S3.2</span></td>
+                    <td>Link Assignment</td>
+                    <td>Part 3 > Tracking Links (Sec 3 B/C) + Campaigns + Creative Group</td>
+                    <td>Entry Points B/C, auto-assign, group-level override campaign-level</td>
+                    <td>S3.1 + S2.2 + S1.2</td>
+                </tr>
+                <tr>
+                    <td><span class="badge dusk">S4.1</span></td>
+                    <td>Campaign Lifecycle</td>
+                    <td>Part 3 > Campaigns (Sec 1-2)</td>
+                    <td>Campaign table, status transitions (Incomplete > Ready > In Progress > Completed > Updated), Notify AM</td>
+                    <td style="color:var(--color-rust);">Decision-07</td>
+                </tr>
+                <tr>
+                    <td><span class="badge dusk">S4.2</span></td>
+                    <td>IsSynced Control</td>
+                    <td>Cross-module (all IsSynced refs)</td>
+                    <td>Trigger timing, per-module permission matrix, mixed-selection batch logic, locked UI</td>
+                    <td style="color:var(--color-rust);">Decision-02</td>
+                </tr>
+                <tr>
+                    <td><span class="badge rust">S5.1</span></td>
+                    <td>Permission Control</td>
+                    <td>Part 2 (NOT READY)</td>
+                    <td>Grant/revoke flow, Internal vs External binary, App ID filtering</td>
+                    <td>Stage 4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 5: V1 SCOPE
+         ══════════════════════════════════════════════════════ -->
+
+    <h2>V1 Scope Boundaries</h2>
+
+    <h3>In Scope</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Area</th><th>Included</th></tr></thead>
+            <tbody>
+                <tr><td>Creative Types</td><td>Banner, Video, Native Image, Native Video</td></tr>
+                <tr><td>Sub-Component Source</td><td>Upload only</td></tr>
+                <tr><td>Permission Model</td><td>Internal vs External (binary)</td></tr>
+                <tr><td>Schedule Timezone</td><td>Browser timezone</td></tr>
+                <tr><td>Package Creation</td><td>Via CPM only</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Out of Scope (Deferred to V2)</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Feature</th><th>Reason</th></tr></thead>
+            <tbody>
+                <tr><td>KR creative types (Kakao/Naver)</td><td>Region-specific</td></tr>
+                <tr><td>Cross-app duplicate</td><td>High complexity, not on critical path</td></tr>
+                <tr><td>Batch create groups</td><td>PRD marks as TBC</td></tr>
+                <tr><td>Automation tools (auto-gen end card/thumbnail)</td><td>Manual upload sufficient for V1</td></tr>
+                <tr><td>Filters (all modules)</td><td>Low data volume at launch</td></tr>
+                <tr><td>Archived status</td><td>Internal only</td></tr>
+                <tr><td>6-role granular permissions</td><td>V1 uses binary model</td></tr>
+                <tr><td>Import from Asset Library</td><td>V1 supports Upload only</td></tr>
+                <tr><td>COD package entry</td><td>V1 uses CPM only</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        CCM V1 Playbook // Updated <span id="footer-date">2026-02-28</span> // Source: PRD + TDD Master Plan + V1 Release Checklist
+    </footer>
+
+</div>
+
+</body>
+</html>
