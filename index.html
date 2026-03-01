@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>CCM // Playbook</title>
+    <title>CCM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
@@ -519,15 +519,23 @@
     <nav class="sidebar" id="sidebar" aria-label="Main navigation">
         <div class="nav-header">
             <div class="nav-header-row">
-                <div class="nav-title">// CCM_PLAYBOOK</div>
+                <div class="nav-title">// CCM</div>
                 <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Hide sidebar">[x]</button>
             </div>
-            <div class="nav-subtitle">4 Plans // 10 Modules // 71 ACs</div>
+            <div class="nav-subtitle">10 Modules // 5 Stages</div>
         </div>
 
         <ul class="nav-list">
-            <li class="nav-section">TDD Master Plan</li>
-            <li class="nav-item"><a href="#master-plan" class="nav-link active">Overview</a></li>
+            <li class="nav-section">System Map</li>
+            <li class="nav-item"><a href="#architecture" class="nav-link active">System Architecture</a></li>
+            <li class="nav-item"><a href="#dependencies" class="nav-link">Stage Dependencies</a></li>
+            <li class="nav-item"><a href="#dataflow" class="nav-link">Data Flow</a></li>
+            <li class="nav-item"><a href="#states" class="nav-link">State Machines</a></li>
+            <li class="nav-item"><a href="#timeline" class="nav-link">Dev Timeline</a></li>
+            <li class="nav-item"><a href="#risk" class="nav-link">Risk Path</a></li>
+
+            <li class="nav-section">Master Plan</li>
+            <li class="nav-item"><a href="#master-plan" class="nav-link">Overview</a></li>
             <li class="nav-item"><a href="#modules" class="nav-link">10 Modules</a></li>
             <li class="nav-item"><a href="#integration" class="nav-link">Integration Contracts</a></li>
             <li class="nav-item"><a href="#decisions" class="nav-link">Open Decisions</a></li>
@@ -543,14 +551,6 @@
             <li class="nav-item"><a href="#march-plan" class="nav-link">4-Week Schedule</a></li>
             <li class="nav-item"><a href="#checkpoints" class="nav-link">Checkpoints</a></li>
             <li class="nav-item"><a href="#checkin" class="nav-link">Check-in Template</a></li>
-
-            <li class="nav-section">System Map</li>
-            <li class="nav-item"><a href="#architecture" class="nav-link">System Architecture</a></li>
-            <li class="nav-item"><a href="#dependencies" class="nav-link">Stage Dependencies</a></li>
-            <li class="nav-item"><a href="#dataflow" class="nav-link">Data Flow</a></li>
-            <li class="nav-item"><a href="#states" class="nav-link">State Machines</a></li>
-            <li class="nav-item"><a href="#timeline" class="nav-link">Dev Timeline</a></li>
-            <li class="nav-item"><a href="#risk" class="nav-link">Risk Path</a></li>
         </ul>
 
         <div class="nav-footer">
@@ -565,23 +565,308 @@
         <button class="sidebar-open-btn" onclick="toggleSidebar()" aria-label="Open sidebar">[=]</button>
 
         <header>
-            <h1>CCM Playbook</h1>
-            <p class="subtitle">Complete plan reference. Last updated: <strong>2026-03-01</strong></p>
+            <h1>CCM</h1>
+            <p class="subtitle">Last updated: <strong>2026-03-01</strong></p>
         </header>
 
 
         <!-- ══════════════════════════════════════════════════════
-             CHAPTER 1: TDD MASTER PLAN
+             SYSTEM MAP
              ══════════════════════════════════════════════════════ -->
 
-        <h2 id="master-plan">TDD Master Plan</h2>
+        <h2 id="architecture">System Map</h2>
 
-        <p>10 Modules, 71 Acceptance Criteria, 6 Integration Contracts, 14 Open Decisions. This is the complete system breakdown.</p>
+        <p>10 diagrams showing how CCM fits together: architecture, dependencies, data flows, state machines, timeline, and risk.</p>
+
+        <h3>1. System Context</h3>
+
+        <div class="diagram"><span class="paper">CCM in the Ad Cloud Ecosystem</span>
+<span class="muted">================================================</span>
+
+  <span class="slate">Ad Cloud Portal</span>
+  <span class="muted">|</span>
+  <span class="muted">|-- navigation, session, permission context</span>
+  <span class="muted">|</span>
+  <span class="muted">v</span>
+  <span class="clay">+-------------------------------+</span>
+  <span class="clay">|     CCM (Client Creative      |</span>
+  <span class="clay">|        Management)            |</span>
+  <span class="clay">|                               |</span>
+  <span class="clay">|  Campaigns | Groups | TL | CR |</span>
+  <span class="clay">+-------------------------------+</span>
+       <span class="muted">|          |          |</span>
+       <span class="muted">v          v          v</span>
+  <span class="moss">CPM API</span>    <span class="slate">TGM API</span>    <span class="dusk">COD</span>
+  <span class="muted">package</span>    <span class="muted">tracker</span>     <span class="muted">onboarding</span>
+  <span class="muted">create</span>     <span class="muted">create</span>      <span class="muted">link</span>
+       <span class="muted">|                    |</span>
+       <span class="muted">v                    v</span>
+  <span class="rust">GCR MMP</span>           <span class="rust">TS Tool</span>
+  <span class="muted">survey</span>            <span class="muted">ext. campaign ID</span></div>
+
+        <h3>2. Module Hierarchy</h3>
+
+        <div class="diagram"><span class="paper">10 Modules grouped by Stage</span>
+<span class="muted">================================================</span>
+
+<span class="moss">Foundation</span>              <span class="clay">Content</span>
+  <span class="moss">M01</span> Navigation          <span class="clay">M03</span> Creative Upload
+  <span class="moss">M02</span> Campaign Pkg        <span class="clay">M04</span> Creative Group
+
+<span class="slate">Tracking</span>                <span class="dusk">Lifecycle</span>
+  <span class="slate">M05</span> Tracking Link       <span class="dusk">M07</span> Campaign Lifecycle
+  <span class="slate">M06</span> Link Assignment     <span class="dusk">M08</span> IsSynced Control
+
+<span class="rust">Gate</span>                    <span class="dusk">Cross-Cutting</span>
+  <span class="rust">M09</span> Permission          <span class="dusk">M10</span> Notification</div>
+
+        <h3 id="dependencies">3. Stage Dependency Flow</h3>
+
+        <div class="diagram"><span class="moss">S1.1</span> Navigation             <span class="muted">No blocker. Start here.</span>
+  |
+<span class="moss">S1.2</span> CPM Package             <span class="muted">No blocker.</span>
+  |
+  |   <span class="muted">CP-1: Can enter CCM, select App ID, see Campaign list</span>
+  |
+<span class="clay">S2.1</span> Creative Upload         <span class="muted">No blocker.</span>
+  |
+<span class="clay">S2.2</span> Creative Group          <span class="muted">Needs S2.1</span>
+  |
+  |   <span class="muted">CP-1: Upload works, groups work, creatives organized</span>
+  |
+<span class="slate">S3.1</span> Tracking Link           <span class="rust">Blocked by Decision-01</span>
+  |
+<span class="slate">S3.2</span> Link Assignment         <span class="muted">Needs S3.1 + S2.2 + S1.2</span>
+  |
+  |   <span class="muted">Links created, assigned to campaign/group</span>
+  |
+<span class="dusk">S4.1</span> Campaign Lifecycle      <span class="rust">Needs Decision-07</span>
+  |
+<span class="dusk">S4.2</span> IsSynced Control        <span class="rust">Blocked by Decision-02</span>
+  |
+  |   <span class="muted">CP-2: Full lifecycle works, lock/unlock correct</span>
+  |
+<span class="rust">S5.1</span> Permission              <span class="muted">Needs all of Stage 4</span>
+  |
+  <span class="muted">External user gated correctly</span></div>
+
+        <h3 id="dataflow">4. Creative Upload Data Flow</h3>
+
+        <div class="diagram"><span class="paper">Upload to Campaign Assignment</span>
+<span class="muted">================================================</span>
+
+<span class="clay">Client uploads files</span>
+      |
+      v
+<span class="clay">Ingestion</span> -- validate format, size, type
+      |
+      v
+<span class="clay">Auto-Categorize</span> -- Banner / Video / Native / Native Video
+      |
+      v
+<span class="clay">Sub-Component Entry</span> -- CTA text, title, description
+      |
+      v
+<span class="clay">Combinatorial Output</span> -- generate all variant combinations
+      |
+      v
+<span class="moss">Creative stored</span> in Creatives tab
+      |
+      v
+<span class="moss">Add to Creative Group</span> -- organize by campaign intent
+      |
+      v
+<span class="slate">Assign Tracking Link</span> -- Entry B (Campaign) or Entry C (Group)
+      |
+      v
+<span class="dusk">Map to Campaign</span> -- group linked to campaign package
+      |
+      v
+<span class="dusk">IsSynced check</span> -- if True, locked; if False, editable</div>
+
+        <h3>5. Campaign Status Transitions</h3>
+
+        <div class="diagram"><span class="paper">Campaign Lifecycle State Machine</span>
+<span class="muted">================================================</span>
+
+<span class="rust">Incomplete</span> ----[all fields filled]----> <span class="clay">Ready</span>
+      ^                                      |
+      |                              [campaign activated]
+      |                                      |
+      |                                      v
+      |                              <span class="moss">In Progress</span>
+      |                                      |
+      |                              [campaign ended]
+      |                                      |
+      |                                      v
+      |                              <span class="slate">Completed</span>
+      |                                      |
+      +------[any edit triggers]---------> <span class="dusk">Updated</span>
+                                             |
+                                     [re-sync to backend]
+                                             |
+                                             v
+                                     <span class="moss">In Progress</span></div>
+
+        <h3 id="states">6. IsSynced State Machine</h3>
+
+        <div class="diagram"><span class="paper">IsSynced Per-Association Control</span>
+<span class="muted">================================================</span>
+
+<span class="moss">IsSynced = False</span>
+  |
+  |  Client can:
+  |    - Edit creatives in group
+  |    - Add/remove creatives
+  |    - Change tracking links
+  |    - Modify campaign settings
+  |
+  |--[AM syncs to backend]-->  <span class="rust">IsSynced = True</span>
+                                  |
+                                  |  Client CANNOT:
+                                  |    - Edit anything
+                                  |    - Add/remove creatives
+                                  |    - Change tracking links
+                                  |    - Modify campaign settings
+                                  |
+                                  |  Must contact AM to unlock
+                                  |
+                                  |--[AM unlocks]--> <span class="moss">IsSynced = False</span></div>
+
+        <h3>7. Tracking Link Lifecycle</h3>
+
+        <div class="diagram"><span class="paper">Tracking Link Creation & Assignment</span>
+<span class="muted">================================================</span>
+
+<span class="slate">Entry A</span> -- standalone from TL tab
+  |
+  v
+<span class="slate">TGM Create API</span> -- send fields, get link URL   <span class="rust">[Decision-01]</span>
+  |
+  v
+<span class="slate">Link Created</span> (Active)
+  |
+  +--<span class="slate">Entry B</span> -- assign from Campaign detail
+  |
+  +--<span class="slate">Entry C</span> -- assign from Creative Group detail
+  |
+  v
+<span class="moss">Assigned</span> -- linked to campaign + group
+  |
+  +--[URL edit allowed?]
+  |    Yes: status = Active, not synced
+  |    No:  IsSynced = True, locked
+  |
+  v
+<span class="dusk">Auto-apply</span> -- CPM auto-links tracking to campaign</div>
+
+        <h3>8. Integration Contract Map</h3>
+
+        <div class="diagram"><span class="paper">6 External System Connections</span>
+<span class="muted">================================================</span>
+
+                    <span class="slate">Ad Cloud Portal</span>
+                         |
+              <span class="muted">IC-04: nav, session, permissions</span>
+                         |
+              +----------+----------+
+              |                     |
+        <span class="moss">CPM API</span>              <span class="clay">CCM</span>                 <span class="dusk">COD</span>
+     <span class="muted">IC-02: pkg</span>         <span class="muted">(this system)</span>           <span class="muted">IC-03: onboard</span>
+              |                     |
+              +----------+----------+
+                         |
+                    <span class="slate">TGM API</span>
+                  <span class="muted">IC-01: tracker</span>
+                    |           |
+               <span class="rust">GCR MMP</span>    <span class="rust">TS Tool</span>
+             <span class="muted">IC-05: survey</span>  <span class="muted">IC-06: ext ID</span></div>
+
+        <h3 id="timeline">9. Q1 Development Timeline</h3>
+
+        <div class="diagram"><span class="paper">March 2026 -- Spec Delivery Schedule</span>
+<span class="muted">====================================================================</span>
+<span class="muted">Week       1         2         3         4</span>
+<span class="muted">Date    Mar 3-7   Mar 10-14 Mar 17-21 Mar 24-28</span>
+<span class="muted">--------------------------------------------------------------------</span>
+<span class="moss">S1.1</span>   <span class="moss">[========]</span>
+<span class="moss">S1.2</span>   <span class="moss">[========]</span>
+<span class="clay">S2.1</span>             <span class="clay">[========]</span>
+<span class="clay">S2.2</span>                       <span class="clay">[====]</span>
+<span class="slate">S3.1</span>                       <span class="slate">[====----]</span>        <span class="rust">* Decision-01</span>
+<span class="slate">S3.2</span>                                 <span class="slate">[========]</span>
+<span class="dusk">S4.1</span>                                 <span class="dusk">[========]</span>  <span class="rust">* Decision-07</span>
+<span class="dusk">S4.2</span>                                 <span class="dusk">[========]</span>  <span class="rust">* Decision-02</span>
+<span class="rust">S5.1</span>                                 <span class="rust">[========]</span>
+<span class="muted">--------------------------------------------------------------------</span>
+<span class="muted">CP-1                   ^</span>
+<span class="muted">CP-2                                          ^</span>
+<span class="muted">--------------------------------------------------------------------</span>
+<span class="moss">[====]</span> = no blocker     <span class="slate">[----]</span> = Decision-dependent     <span class="rust">*</span> = blocker</div>
+
+        <h3 id="risk">10. Risk & Critical Path</h3>
+
+        <div class="diagram"><span class="paper">Critical Path & Risk Assessment</span>
+<span class="muted">================================================</span>
+
+<span class="paper">CRITICAL PATH (longest dependency chain):</span>
+
+  <span class="moss">S1.1</span> -> <span class="moss">S1.2</span> -> <span class="clay">S2.1</span> -> <span class="clay">S2.2</span> -> <span class="slate">S3.1</span> -> <span class="slate">S3.2</span> -> <span class="dusk">S4.1</span> -> <span class="dusk">S4.2</span> -> <span class="rust">S5.1</span>
+                                     <span class="rust">^              ^              ^</span>
+                                 <span class="rust">Decision-01    Decision-07    Decision-02</span>
+
+<span class="paper">RISK HEAT MAP:</span>
+
+  <span class="rust">HIGH</span>   Decision-01 not resolved by Week 3
+         -> S3.1 cannot start, cascades to S3.2, S4.x, S5.1
+         -> Mitigation: Lead escalates by Mar 10
+
+  <span class="rust">HIGH</span>   S2.1 spec takes longer than 1 week
+         -> Largest module (12 ACs), Spec Matrix is complex
+         -> Mitigation: Start reading PRD during Week 1
+
+  <span class="clay">MED</span>    Decision-02/07 not resolved by Week 4
+         -> S4.1/S4.2 can be spec'd partially (mark TBD)
+         -> Mitigation: Spec everything except blocked fields
+
+  <span class="moss">LOW</span>    S5.1 (Permission) PRD Part 2 not ready
+         -> Document known requirements, list unknowns
+         -> Not on critical path for internal launch</div>
+
+        <h3>IsSynced: The Critical Flag</h3>
+
+        <p><code>IsSynced</code> controls whether a client can edit anything. It cuts across all modules. Its trigger timing (Decision-02) must be resolved before Stage 4.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>IsSynced</th><th>Campaign Status</th><th>Client Can Do</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="badge moss">False</span></td><td>Incomplete / Ready</td><td>Full edit</td></tr>
+                    <tr><td><span class="badge moss">False</span></td><td>Updated / In Progress</td><td>Edit allowed (not yet synced)</td></tr>
+                    <tr><td><span class="badge rust">True</span></td><td>Updated / In Progress / Completed</td><td>Locked -- must contact AM</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="divider"></div>
+
+        <!-- ══════════════════════════════════════════════════════
+             CHAPTER 1: MASTER PLAN
+             ══════════════════════════════════════════════════════ -->
+
+        <h2 id="master-plan">Master Plan</h2>
+
+        <p>10 Modules, 5 Stages, 71 Acceptance Criteria, 6 Integration Contracts, 14 Open Decisions. This is the complete system breakdown.</p>
 
         <div class="stats-row">
             <div class="stat-box">
                 <div class="stat-num">10</div>
                 <div class="stat-label">Modules</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">5</div>
+                <div class="stat-label">Stages</div>
             </div>
             <div class="stat-box">
                 <div class="stat-num">71</div>
@@ -1041,6 +1326,10 @@
             </div>
         </div>
 
+        <div class="alert info" style="margin-top: calc(-1 * var(--space-3)); margin-bottom: var(--space-5);">
+            <span style="color:var(--color-moss);">[✓]</span> <strong>Verification:</strong> User can log in → select App ID → see empty Campaign list
+        </div>
+
         <!-- Stage 2 -->
         <div class="module-card">
             <div class="module-card-header" onclick="this.nextElementSibling.classList.toggle('open')">
@@ -1077,6 +1366,10 @@
             </div>
         </div>
 
+        <div class="alert info" style="margin-top: calc(-1 * var(--space-3)); margin-bottom: var(--space-5);">
+            <span style="color:var(--color-moss);">[✓]</span> <strong>Verification:</strong> Upload image/video → system auto-categorizes correctly → create group → add creatives
+        </div>
+
         <!-- Stage 3 -->
         <div class="module-card">
             <div class="module-card-header" onclick="this.nextElementSibling.classList.toggle('open')">
@@ -1106,6 +1399,10 @@
                     <li>Batch assignment operations</li>
                 </ul>
             </div>
+        </div>
+
+        <div class="alert info" style="margin-top: calc(-1 * var(--space-3)); margin-bottom: var(--space-5);">
+            <span style="color:var(--color-moss);">[✓]</span> <strong>Verification:</strong> Create tracking link → TGM returns success → auto-assign to campaign/group
         </div>
 
         <!-- Stage 4 -->
@@ -1138,6 +1435,10 @@
             </div>
         </div>
 
+        <div class="alert info" style="margin-top: calc(-1 * var(--space-3)); margin-bottom: var(--space-5);">
+            <span style="color:var(--color-moss);">[✓]</span> <strong>Verification:</strong> Complete full Incomplete → Ready → In Progress → Completed lifecycle. IsSynced=True correctly locks client editing.
+        </div>
+
         <!-- Stage 5 -->
         <div class="module-card">
             <div class="module-card-header" onclick="this.nextElementSibling.classList.toggle('open')">
@@ -1156,6 +1457,10 @@
                     <li>Graceful error when access denied</li>
                 </ul>
             </div>
+        </div>
+
+        <div class="alert info" style="margin-top: calc(-1 * var(--space-3)); margin-bottom: var(--space-5);">
+            <span style="color:var(--color-moss);">[✓]</span> <strong>Verification:</strong> External user logs in → sees only authorized App IDs → operations correctly restricted
         </div>
 
         <!-- ── Decision Blockers ── -->
@@ -1374,27 +1679,24 @@
             </table>
         </div>
 
-        <h3>Decision Blocker Ownership</h3>
+        <h3>Decision Blocker</h3>
 
         <div class="table-wrap">
             <table>
-                <thead><tr><th>Decision</th><th>Owner</th><th>Needed By</th><th>Stakeholders</th></tr></thead>
+                <thead><tr><th>Decision</th><th>Needed By</th><th>Stakeholders</th></tr></thead>
                 <tbody>
                     <tr>
                         <td style="color:var(--color-rust);">Decision-01</td>
-                        <td>Lead</td>
                         <td>Week 3 (Mar 17)</td>
                         <td>TGM team, TS team</td>
                     </tr>
                     <tr>
                         <td style="color:var(--color-rust);">Decision-02</td>
-                        <td>Lead</td>
                         <td>Week 4 (Mar 24)</td>
                         <td>Backend team, Product</td>
                     </tr>
                     <tr>
                         <td style="color:var(--color-rust);">Decision-07</td>
-                        <td>Lead</td>
                         <td>Week 4 (Mar 24)</td>
                         <td>AM team, Product</td>
                     </tr>
@@ -1402,288 +1704,8 @@
             </table>
         </div>
 
-        <div class="divider"></div>
-
-        <!-- ══════════════════════════════════════════════════════
-             CHAPTER 4: SYSTEM MAP
-             ══════════════════════════════════════════════════════ -->
-
-        <h2 id="architecture">System Map</h2>
-
-        <p>10 diagrams showing how CCM fits together: architecture, dependencies, data flows, state machines, timeline, and risk.</p>
-
-        <h3>1. System Context</h3>
-
-        <div class="diagram"><span class="paper">CCM in the Ad Cloud Ecosystem</span>
-<span class="muted">================================================</span>
-
-  <span class="slate">Ad Cloud Portal</span>
-  <span class="muted">|</span>
-  <span class="muted">|-- navigation, session, permission context</span>
-  <span class="muted">|</span>
-  <span class="muted">v</span>
-  <span class="clay">+-------------------------------+</span>
-  <span class="clay">|     CCM (Client Creative      |</span>
-  <span class="clay">|        Management)            |</span>
-  <span class="clay">|                               |</span>
-  <span class="clay">|  Campaigns | Groups | TL | CR |</span>
-  <span class="clay">+-------------------------------+</span>
-       <span class="muted">|          |          |</span>
-       <span class="muted">v          v          v</span>
-  <span class="moss">CPM API</span>    <span class="slate">TGM API</span>    <span class="dusk">COD</span>
-  <span class="muted">package</span>    <span class="muted">tracker</span>     <span class="muted">onboarding</span>
-  <span class="muted">create</span>     <span class="muted">create</span>      <span class="muted">link</span>
-       <span class="muted">|                    |</span>
-       <span class="muted">v                    v</span>
-  <span class="rust">GCR MMP</span>           <span class="rust">TS Tool</span>
-  <span class="muted">survey</span>            <span class="muted">ext. campaign ID</span></div>
-
-        <h3>2. Module Hierarchy</h3>
-
-        <div class="diagram"><span class="paper">10 Modules grouped by Stage</span>
-<span class="muted">================================================</span>
-
-<span class="moss">Foundation</span>              <span class="clay">Content</span>
-  <span class="moss">M01</span> Navigation          <span class="clay">M03</span> Creative Upload
-  <span class="moss">M02</span> Campaign Pkg        <span class="clay">M04</span> Creative Group
-
-<span class="slate">Tracking</span>                <span class="dusk">Lifecycle</span>
-  <span class="slate">M05</span> Tracking Link       <span class="dusk">M07</span> Campaign Lifecycle
-  <span class="slate">M06</span> Link Assignment     <span class="dusk">M08</span> IsSynced Control
-
-<span class="rust">Gate</span>                    <span class="dusk">Cross-Cutting</span>
-  <span class="rust">M09</span> Permission          <span class="dusk">M10</span> Notification</div>
-
-        <h3 id="dependencies">3. Stage Dependency Flow</h3>
-
-        <div class="diagram"><span class="moss">S1.1</span> Navigation             <span class="muted">No blocker. Start here.</span>
-  |
-<span class="moss">S1.2</span> CPM Package             <span class="muted">No blocker.</span>
-  |
-  |   <span class="muted">CP-1: Can enter CCM, select App ID, see Campaign list</span>
-  |
-<span class="clay">S2.1</span> Creative Upload         <span class="muted">No blocker.</span>
-  |
-<span class="clay">S2.2</span> Creative Group          <span class="muted">Needs S2.1</span>
-  |
-  |   <span class="muted">CP-1: Upload works, groups work, creatives organized</span>
-  |
-<span class="slate">S3.1</span> Tracking Link           <span class="rust">Blocked by Decision-01</span>
-  |
-<span class="slate">S3.2</span> Link Assignment         <span class="muted">Needs S3.1 + S2.2 + S1.2</span>
-  |
-  |   <span class="muted">Links created, assigned to campaign/group</span>
-  |
-<span class="dusk">S4.1</span> Campaign Lifecycle      <span class="rust">Needs Decision-07</span>
-  |
-<span class="dusk">S4.2</span> IsSynced Control        <span class="rust">Blocked by Decision-02</span>
-  |
-  |   <span class="muted">CP-2: Full lifecycle works, lock/unlock correct</span>
-  |
-<span class="rust">S5.1</span> Permission              <span class="muted">Needs all of Stage 4</span>
-  |
-  <span class="muted">External user gated correctly</span></div>
-
-        <h3 id="dataflow">4. Creative Upload Data Flow</h3>
-
-        <div class="diagram"><span class="paper">Upload to Campaign Assignment</span>
-<span class="muted">================================================</span>
-
-<span class="clay">Client uploads files</span>
-      |
-      v
-<span class="clay">Ingestion</span> -- validate format, size, type
-      |
-      v
-<span class="clay">Auto-Categorize</span> -- Banner / Video / Native / Native Video
-      |
-      v
-<span class="clay">Sub-Component Entry</span> -- CTA text, title, description
-      |
-      v
-<span class="clay">Combinatorial Output</span> -- generate all variant combinations
-      |
-      v
-<span class="moss">Creative stored</span> in Creatives tab
-      |
-      v
-<span class="moss">Add to Creative Group</span> -- organize by campaign intent
-      |
-      v
-<span class="slate">Assign Tracking Link</span> -- Entry B (Campaign) or Entry C (Group)
-      |
-      v
-<span class="dusk">Map to Campaign</span> -- group linked to campaign package
-      |
-      v
-<span class="dusk">IsSynced check</span> -- if True, locked; if False, editable</div>
-
-        <h3>5. Campaign Status Transitions</h3>
-
-        <div class="diagram"><span class="paper">Campaign Lifecycle State Machine</span>
-<span class="muted">================================================</span>
-
-<span class="rust">Incomplete</span> ----[all fields filled]----> <span class="clay">Ready</span>
-      ^                                      |
-      |                              [campaign activated]
-      |                                      |
-      |                                      v
-      |                              <span class="moss">In Progress</span>
-      |                                      |
-      |                              [campaign ended]
-      |                                      |
-      |                                      v
-      |                              <span class="slate">Completed</span>
-      |                                      |
-      +------[any edit triggers]---------> <span class="dusk">Updated</span>
-                                             |
-                                     [re-sync to backend]
-                                             |
-                                             v
-                                     <span class="moss">In Progress</span></div>
-
-        <h3 id="states">6. IsSynced State Machine</h3>
-
-        <div class="diagram"><span class="paper">IsSynced Per-Association Control</span>
-<span class="muted">================================================</span>
-
-<span class="moss">IsSynced = False</span>
-  |
-  |  Client can:
-  |    - Edit creatives in group
-  |    - Add/remove creatives
-  |    - Change tracking links
-  |    - Modify campaign settings
-  |
-  |--[AM syncs to backend]-->  <span class="rust">IsSynced = True</span>
-                                  |
-                                  |  Client CANNOT:
-                                  |    - Edit anything
-                                  |    - Add/remove creatives
-                                  |    - Change tracking links
-                                  |    - Modify campaign settings
-                                  |
-                                  |  Must contact AM to unlock
-                                  |
-                                  |--[AM unlocks]--> <span class="moss">IsSynced = False</span></div>
-
-        <h3>7. Tracking Link Lifecycle</h3>
-
-        <div class="diagram"><span class="paper">Tracking Link Creation & Assignment</span>
-<span class="muted">================================================</span>
-
-<span class="slate">Entry A</span> -- standalone from TL tab
-  |
-  v
-<span class="slate">TGM Create API</span> -- send fields, get link URL   <span class="rust">[Decision-01]</span>
-  |
-  v
-<span class="slate">Link Created</span> (Active)
-  |
-  +--<span class="slate">Entry B</span> -- assign from Campaign detail
-  |
-  +--<span class="slate">Entry C</span> -- assign from Creative Group detail
-  |
-  v
-<span class="moss">Assigned</span> -- linked to campaign + group
-  |
-  +--[URL edit allowed?]
-  |    Yes: status = Active, not synced
-  |    No:  IsSynced = True, locked
-  |
-  v
-<span class="dusk">Auto-apply</span> -- CPM auto-links tracking to campaign</div>
-
-        <h3>8. Integration Contract Map</h3>
-
-        <div class="diagram"><span class="paper">6 External System Connections</span>
-<span class="muted">================================================</span>
-
-                    <span class="slate">Ad Cloud Portal</span>
-                         |
-              <span class="muted">IC-04: nav, session, permissions</span>
-                         |
-              +----------+----------+
-              |                     |
-        <span class="moss">CPM API</span>              <span class="clay">CCM</span>                 <span class="dusk">COD</span>
-     <span class="muted">IC-02: pkg</span>         <span class="muted">(this system)</span>           <span class="muted">IC-03: onboard</span>
-              |                     |
-              +----------+----------+
-                         |
-                    <span class="slate">TGM API</span>
-                  <span class="muted">IC-01: tracker</span>
-                    |           |
-               <span class="rust">GCR MMP</span>    <span class="rust">TS Tool</span>
-             <span class="muted">IC-05: survey</span>  <span class="muted">IC-06: ext ID</span></div>
-
-        <h3 id="timeline">9. Q1 Development Timeline</h3>
-
-        <div class="diagram"><span class="paper">March 2026 -- Spec Delivery Schedule</span>
-<span class="muted">====================================================================</span>
-<span class="muted">Week       1         2         3         4</span>
-<span class="muted">Date    Mar 3-7   Mar 10-14 Mar 17-21 Mar 24-28</span>
-<span class="muted">--------------------------------------------------------------------</span>
-<span class="moss">S1.1</span>   <span class="moss">[========]</span>
-<span class="moss">S1.2</span>   <span class="moss">[========]</span>
-<span class="clay">S2.1</span>             <span class="clay">[========]</span>
-<span class="clay">S2.2</span>                       <span class="clay">[====]</span>
-<span class="slate">S3.1</span>                       <span class="slate">[====----]</span>        <span class="rust">* Decision-01</span>
-<span class="slate">S3.2</span>                                 <span class="slate">[========]</span>
-<span class="dusk">S4.1</span>                                 <span class="dusk">[========]</span>  <span class="rust">* Decision-07</span>
-<span class="dusk">S4.2</span>                                 <span class="dusk">[========]</span>  <span class="rust">* Decision-02</span>
-<span class="rust">S5.1</span>                                 <span class="rust">[========]</span>
-<span class="muted">--------------------------------------------------------------------</span>
-<span class="muted">CP-1                   ^</span>
-<span class="muted">CP-2                                          ^</span>
-<span class="muted">--------------------------------------------------------------------</span>
-<span class="moss">[====]</span> = no blocker     <span class="slate">[----]</span> = Decision-dependent     <span class="rust">*</span> = blocker</div>
-
-        <h3 id="risk">10. Risk & Critical Path</h3>
-
-        <div class="diagram"><span class="paper">Critical Path & Risk Assessment</span>
-<span class="muted">================================================</span>
-
-<span class="paper">CRITICAL PATH (longest dependency chain):</span>
-
-  <span class="moss">S1.1</span> -> <span class="moss">S1.2</span> -> <span class="clay">S2.1</span> -> <span class="clay">S2.2</span> -> <span class="slate">S3.1</span> -> <span class="slate">S3.2</span> -> <span class="dusk">S4.1</span> -> <span class="dusk">S4.2</span> -> <span class="rust">S5.1</span>
-                                     <span class="rust">^              ^              ^</span>
-                                 <span class="rust">Decision-01    Decision-07    Decision-02</span>
-
-<span class="paper">RISK HEAT MAP:</span>
-
-  <span class="rust">HIGH</span>   Decision-01 not resolved by Week 3
-         -> S3.1 cannot start, cascades to S3.2, S4.x, S5.1
-         -> Mitigation: Lead escalates by Mar 10
-
-  <span class="rust">HIGH</span>   S2.1 spec takes longer than 1 week
-         -> Largest module (12 ACs), Spec Matrix is complex
-         -> Mitigation: Start reading PRD during Week 1
-
-  <span class="clay">MED</span>    Decision-02/07 not resolved by Week 4
-         -> S4.1/S4.2 can be spec'd partially (mark TBD)
-         -> Mitigation: Spec everything except blocked fields
-
-  <span class="moss">LOW</span>    S5.1 (Permission) PRD Part 2 not ready
-         -> Document known requirements, list unknowns
-         -> Not on critical path for internal launch</div>
-
-        <h3>IsSynced: The Critical Flag</h3>
-
-        <p><code>IsSynced</code> controls whether a client can edit anything. It cuts across all modules. Its trigger timing (Decision-02) must be resolved before Stage 4.</p>
-
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>IsSynced</th><th>Campaign Status</th><th>Client Can Do</th></tr></thead>
-                <tbody>
-                    <tr><td><span class="badge moss">False</span></td><td>Incomplete / Ready</td><td>Full edit</td></tr>
-                    <tr><td><span class="badge moss">False</span></td><td>Updated / In Progress</td><td>Edit allowed (not yet synced)</td></tr>
-                    <tr><td><span class="badge rust">True</span></td><td>Updated / In Progress / Completed</td><td>Locked -- must contact AM</td></tr>
-                </tbody>
-            </table>
-        </div>
-
         <footer class="footer">
-            CCM Playbook // Updated 2026-03-01 // Source: PRD + TDD Master Plan + Release Checklist
+            CCM // Updated 2026-03-01 // Source: PRD + Master Plan + Release Checklist
         </footer>
 
     </main>
